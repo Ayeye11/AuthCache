@@ -4,14 +4,14 @@ import "fmt"
 
 // Main Config
 type ConfigAPI struct {
-	APP ConfigApp
+	APP ConfigAPP
 	SQL ConfigSQL
 }
 
 func LoadConfig() ConfigAPI {
 	return ConfigAPI{
 
-		ConfigApp{
+		ConfigAPP{
 			Host:     appHost,
 			Port:     appPort,
 			TokenKey: appTokenKey,
@@ -37,7 +37,7 @@ type ConfigSQL struct {
 }
 
 func (c *ConfigSQL) DSN_mysql() string {
-	return fmt.Sprintf("%s:%s@tcp(%s%s)/%s?allowMultiStatements=true", c.User, c.Password, c.Host, c.Port, c.DbName)
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?multiStatements=true", c.User, c.Password, c.Host, c.Port, c.DbName)
 }
 
 func (c *ConfigSQL) DSN_postgres() string {
@@ -45,7 +45,7 @@ func (c *ConfigSQL) DSN_postgres() string {
 }
 
 // APP Config
-type ConfigApp struct {
+type ConfigAPP struct {
 	Host     string
 	Port     string
 	TokenKey string

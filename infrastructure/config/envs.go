@@ -8,8 +8,8 @@ var (
 	sqlHost     = getEnv("", "localhost")
 	sqlUser     = getEnv("", "root")
 	sqlPassword = getEnv("", "password")
-	sqlDbName   = getEnv("", "thr_sql")
-	sqlPort     = getEnv("", ":3306")
+	sqlDbName   = getEnv("", "test_db")
+	sqlPort     = getEnv("", "3306")
 
 	// App
 	appHost     = getEnv("", "localhost")

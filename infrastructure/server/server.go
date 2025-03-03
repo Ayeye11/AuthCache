@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/Ayeye11/se-thr/infrastructure/config"
-	"github.com/gin-gonic/gin"
 )
 
 type server struct {
@@ -21,11 +20,11 @@ type server struct {
 	signCh chan os.Signal
 }
 
-func NewServer(conn *gin.Engine, config config.ConfigAPP) *server {
+func NewServer(handler http.Handler, config config.ConfigAPP) *server {
 	errCh := make(chan error, 1)
 	signCh := make(chan os.Signal, 1)
 
-	srv := &http.Server{Addr: config.Port, Handler: conn}
+	srv := &http.Server{Addr: config.Port, Handler: handler}
 
 	signal.Notify(signCh, syscall.SIGINT, syscall.SIGTERM)
 	return &server{srv, config, errCh, signCh}
@@ -48,7 +47,7 @@ func (s *server) Close() error {
 		return err
 
 	case sign := <-s.signCh:
-		fmt.Printf(" => Signal received: %s\n", sign)
+		fmt.Printf(" => Signal received: '%s'\n", sign)
 	}
 
 	if err := s.srv.Shutdown(ctx); err != nil {

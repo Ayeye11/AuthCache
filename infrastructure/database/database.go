@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"fmt"
 	"time"
 
@@ -46,4 +47,18 @@ func InitSQL(engineName string, config config.ConfigSQL, attempts int) (*databas
 	}
 
 	return nil, fmt.Errorf("failed to connect to the database")
+}
+
+// Methods:
+func (sql *databaseSQL) GetInstance() (*sql.DB, error) {
+	return sql.db.DB()
+}
+
+func (sql *databaseSQL) Close() error {
+	ins, err := sql.db.DB()
+	if err != nil {
+		return err
+	}
+
+	return ins.Close()
 }

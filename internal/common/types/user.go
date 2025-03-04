@@ -14,7 +14,7 @@ type User struct {
 	Firstname string `json:"firstname,omitempty"`
 	Lastname  string `json:"lastname,omitempty"`
 	Age       int    `json:"age,omitempty"`
-	RoleID    int    `json:"role,omitempty"`
+	Role      *Role  `json:"role"`
 }
 
 // Specifications

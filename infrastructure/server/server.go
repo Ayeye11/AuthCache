@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Ayeye11/se-thr/infrastructure/config"
+	"github.com/Ayeye11/se-thr/config"
 )
 
 type server struct {

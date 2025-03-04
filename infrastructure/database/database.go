@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Ayeye11/se-thr/infrastructure/config"
+	"github.com/Ayeye11/se-thr/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

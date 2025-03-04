@@ -1,20 +1,33 @@
 package repository
 
 import (
+	"github.com/Ayeye11/se-thr/internal/common/types"
 	"github.com/Ayeye11/se-thr/internal/database/models"
 	"gorm.io/gorm"
 )
 
 type Repository struct {
-	Auth AuthRepository
+	Perm PermissionRepository
+	User UserRepository
 }
 
 func LoadRepository(db *gorm.DB) *Repository {
 	return &Repository{
-		Auth: &authStore{db},
+		Perm: &permStore{db},
+		User: &userStore{db},
 	}
 }
 
-type AuthRepository interface {
-	GetPermissions(role string) ([]models.Permission, error)
+type PermissionRepository interface {
+	GetRoleByID(roleID int) (*models.AcRole, error)
+	GetRoleByName(roleName string) (*models.AcRole, error)
+	GetPermissions(role string) ([]*types.Permission, error)
+}
+
+type UserRepository interface {
+	// Create
+	CreateUser(u *types.User) error
+	// Read
+	GetUserByID(id int) (*types.User, error)
+	GetUserByEmail(email string) (*types.User, error)
 }

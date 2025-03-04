@@ -1,6 +1,6 @@
 package models
 
-type Permission struct {
+type PermissionModel struct {
 	Role     string `gorm:"column:role"`
 	Category string `gorm:"column:category"`
 	Action   string `gorm:"column:action"`

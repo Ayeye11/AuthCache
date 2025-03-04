@@ -93,3 +93,7 @@ func (sql *databaseSQL) Close() error {
 
 	return ins.Close()
 }
+
+func (sql *databaseSQL) GetDB() *gorm.DB {
+	return sql.db
+}

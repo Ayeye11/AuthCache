@@ -4,7 +4,7 @@ import "github.com/Ayeye11/se-thr/internal/common/errs"
 
 func ValidateField(target any, spec *Specification) error {
 	if spec == nil {
-		return errs.InternalX(errs.BscError("missing field specifications"))
+		return errs.ErrValidation_MissingSpec
 	}
 
 	if spec.optional && target == nil {
@@ -12,7 +12,7 @@ func ValidateField(target any, spec *Specification) error {
 	}
 
 	if target == nil {
-		return errs.MissingCredentials
+		return errs.ErrValidation_MissingCredentials
 	}
 
 	switch t := target.(type) {

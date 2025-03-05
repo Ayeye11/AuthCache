@@ -40,13 +40,6 @@ var (
 	InvalidCredentials = newErrorHTTP(http.StatusBadRequest, "invalid credentials")
 	MissingCredentials = newErrorHTTP(http.StatusBadRequest, "missing credentials")
 
-	InvalidID        = newErrorHTTP(http.StatusBadRequest, "invalid id")
-	InvalidEmail     = newErrorHTTP(http.StatusBadRequest, "invalid email")
-	InvalidPassword  = newErrorHTTP(http.StatusBadRequest, "invalid password")
-	InvalidFirstname = newErrorHTTP(http.StatusBadRequest, "invalid firstname")
-	InvalidLastname  = newErrorHTTP(http.StatusBadRequest, "invalid lastname")
-	InvalidAge       = newErrorHTTP(http.StatusBadRequest, "invalid age")
-
 	// Status: 401
 	InvalidToken = newErrorHTTP(http.StatusUnauthorized, "invalid token")
 	MissingToken = newErrorHTTP(http.StatusUnauthorized, "missing token")

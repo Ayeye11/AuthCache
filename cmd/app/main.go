@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	// Conifg
+	// Config
 	cfg := config.LoadConfig()
 
 	// Database
@@ -19,8 +19,8 @@ func main() {
 		log.Fatalf("fatal: %v\n", err)
 	}
 
-	// Router
-	router := api.NewRouter()
+	// API Internals
+	router := api.NewRouter(sqlDB.GetDB(), cfg.APP.TokenKey)
 	handler := router.RegisterRoutes()
 
 	// Server

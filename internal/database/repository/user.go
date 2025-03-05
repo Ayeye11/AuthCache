@@ -16,7 +16,7 @@ type userStore struct {
 // Create
 func (s *userStore) CreateUser(u *types.User) error {
 	if !u.IsPasswordHashed() {
-		return errs.ErrRepoUserPasswordHash
+		return errs.ErrValidation_PasswordNotHash
 	}
 
 	model := models.UserModel{
@@ -31,10 +31,10 @@ func (s *userStore) CreateUser(u *types.User) error {
 	if err := s.db.Create(&model).Error; err != nil {
 
 		if errors.Is(err, gorm.ErrDuplicatedKey) {
-			return errs.ErrRepoUserDuplicatedEmail
+			return errs.ErrRepoUser_DuplicatedEmail
 		}
 
-		return err
+		return errs.UnknownError(err)
 	}
 
 	return nil
@@ -43,22 +43,22 @@ func (s *userStore) CreateUser(u *types.User) error {
 // Read
 func (s *userStore) GetUserByID(id int) (*types.User, error) {
 	if id < 1 {
-		return nil, errs.ErrRepoUserInvalidUserID
+		return nil, errs.ErrRepoUser_InvalidUserID
 	}
 
 	model := models.UserModel{}
 	if err := s.db.First(&model, id).Error; err != nil {
 
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errs.ErrRepoUserNotFound
+			return nil, errs.ErrRepoUser_NotFound
 		}
 
-		return nil, err
+		return nil, errs.UnknownError(err)
 	}
 
 	modelRole := models.AcRole{}
 	if err := s.db.First(&modelRole, model.RoleID).Error; err != nil {
-		return nil, err
+		return nil, errs.UnknownError(err)
 	}
 
 	user := &types.User{
@@ -83,15 +83,15 @@ func (s *userStore) GetUserByEmail(email string) (*types.User, error) {
 	if err := s.db.First(&model, "email = ?", email).Error; err != nil {
 
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errs.ErrRepoUserNotFound
+			return nil, errs.ErrRepoUser_NotFound
 		}
 
-		return nil, err
+		return nil, errs.UnknownError(err)
 	}
 
 	modelRole := models.AcRole{}
 	if err := s.db.First(&modelRole, model.RoleID).Error; err != nil {
-		return nil, err
+		return nil, errs.UnknownError(err)
 	}
 
 	user := &types.User{

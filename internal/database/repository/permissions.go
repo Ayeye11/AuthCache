@@ -15,17 +15,17 @@ type permStore struct {
 
 func (s *permStore) GetRoleByID(roleID int) (*models.AcRole, error) {
 	if roleID < 1 {
-		return nil, errs.ErrRepoPermInvalidRoleID
+		return nil, errs.ErrRepoPerm_InvalidRoleID
 	}
 
 	role := models.AcRole{}
 	if err := s.db.First(&role, roleID).Error; err != nil {
 
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errs.ErrRepoPermInvalidRoleID
+			return nil, errs.ErrRepoPerm_InvalidRoleID
 		}
 
-		return nil, err
+		return nil, errs.UnknownError(err)
 	}
 
 	return &role, nil
@@ -36,10 +36,10 @@ func (s *permStore) GetRoleByName(roleName string) (*models.AcRole, error) {
 	if err := s.db.First(&role, "role = ?", roleName).Error; err != nil {
 
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errs.ErrRepoPermInvalidRoleID
+			return nil, errs.ErrRepoPerm_InvalidRoleID
 		}
 
-		return nil, err
+		return nil, errs.UnknownError(err)
 	}
 
 	return &role, nil
@@ -57,7 +57,7 @@ func (s *permStore) GetPermissions(roleID int) ([]*types.Permission, error) {
 		Where("r.id = ?", roleID).
 		Find(&model).Error
 	if err != nil {
-		return nil, err
+		return nil, errs.UnknownError(err)
 	}
 
 	permissions := []*types.Permission{}

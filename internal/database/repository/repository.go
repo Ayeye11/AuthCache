@@ -21,7 +21,7 @@ func LoadRepository(db *gorm.DB) *Repository {
 type PermissionRepository interface {
 	GetRoleByID(roleID int) (*models.AcRole, error)
 	GetRoleByName(roleName string) (*models.AcRole, error)
-	GetPermissions(role string) ([]*types.Permission, error)
+	GetPermissions(roleID int) ([]*types.Permission, error)
 }
 
 type UserRepository interface {

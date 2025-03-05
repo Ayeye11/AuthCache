@@ -3,6 +3,7 @@ package repository
 import (
 	"errors"
 
+	"github.com/Ayeye11/se-thr/internal/common/errs"
 	"github.com/Ayeye11/se-thr/internal/common/types"
 	"github.com/Ayeye11/se-thr/internal/database/models"
 	"gorm.io/gorm"
@@ -15,7 +16,7 @@ type userStore struct {
 // Create
 func (s *userStore) CreateUser(u *types.User) error {
 	if !u.IsPasswordHashed() {
-		return errUserPasswordHash
+		return errs.ErrRepoUserPasswordHash
 	}
 
 	model := models.UserModel{
@@ -30,7 +31,7 @@ func (s *userStore) CreateUser(u *types.User) error {
 	if err := s.db.Create(&model).Error; err != nil {
 
 		if errors.Is(err, gorm.ErrDuplicatedKey) {
-			return errUserDuplicatedEmail
+			return errs.ErrRepoUserDuplicatedEmail
 		}
 
 		return err
@@ -42,14 +43,14 @@ func (s *userStore) CreateUser(u *types.User) error {
 // Read
 func (s *userStore) GetUserByID(id int) (*types.User, error) {
 	if id < 1 {
-		return nil, errUserInvalidUserID
+		return nil, errs.ErrRepoUserInvalidUserID
 	}
 
 	model := models.UserModel{}
 	if err := s.db.First(&model, id).Error; err != nil {
 
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errUserNotFoundUser
+			return nil, errs.ErrRepoUserNotFound
 		}
 
 		return nil, err
@@ -61,7 +62,7 @@ func (s *userStore) GetUserByID(id int) (*types.User, error) {
 	}
 
 	user := &types.User{
-		ID:        int(model.ID),
+		ID:        model.ID,
 		Email:     model.Email,
 		Password:  model.HashPassword,
 		Firstname: model.Firstname,
@@ -82,7 +83,7 @@ func (s *userStore) GetUserByEmail(email string) (*types.User, error) {
 	if err := s.db.First(&model, "email = ?", email).Error; err != nil {
 
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errUserNotFoundUser
+			return nil, errs.ErrRepoUserNotFound
 		}
 
 		return nil, err
@@ -94,7 +95,7 @@ func (s *userStore) GetUserByEmail(email string) (*types.User, error) {
 	}
 
 	user := &types.User{
-		ID:        int(model.ID),
+		ID:        model.ID,
 		Email:     model.Email,
 		Password:  model.HashPassword,
 		Firstname: model.Firstname,

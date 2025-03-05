@@ -18,20 +18,6 @@ func CompareError(err, with error) bool {
 	return errors.Is(err, with)
 }
 
-func CompareStatus(err error, with int) bool {
-	errHTTP := ToHTTP(err)
-	return errHTTP.status == with
-}
-
-func CompareErrCode(err error, code string) bool {
-	errSvc, ok := err.(*appError)
-	if !ok {
-		return false
-	}
-
-	return errSvc.code == code
-}
-
 func BscError(message string) error {
 	return errors.New(message)
 }

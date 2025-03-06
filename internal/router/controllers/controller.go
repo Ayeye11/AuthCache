@@ -13,7 +13,7 @@ type Controller interface {
 
 func InitController(services *services.Services) Controller {
 	pkgHTTP := http.LoadPkgHTTP()
-	middls := middlewares.LoadMiddlewares(services.Auth)
+	middls := middlewares.LoadMiddlewares(pkgHTTP, services.Auth)
 
 	return &handler{pkgHTTP.Req, pkgHTTP.Res, middls, services}
 }

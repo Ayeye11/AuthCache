@@ -13,7 +13,7 @@ var (
 
 	// App
 	appHost     = getEnv("", "localhost")
-	appPort     = getEnv("", ":8080")
+	appPort     = getEnv("", "3000")
 	appTokenKey = getEnv("", "tokenKey")
 )
 

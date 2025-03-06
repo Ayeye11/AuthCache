@@ -24,14 +24,14 @@ func NewServer(handler http.Handler, config config.ConfigAPP) *server {
 	errCh := make(chan error, 1)
 	signCh := make(chan os.Signal, 1)
 
-	srv := &http.Server{Addr: config.Port, Handler: handler}
+	srv := &http.Server{Addr: fmt.Sprintf(":%s", config.Port), Handler: handler}
 
 	signal.Notify(signCh, syscall.SIGINT, syscall.SIGTERM)
 	return &server{srv, config, errCh, signCh}
 }
 
 func (s *server) Run() {
-	log.Printf("Server listen on %s%s\n", s.config.Host, s.config.Port)
+	log.Printf("Server listen on %s:%s\n", s.config.Host, s.config.Port)
 
 	if err := s.srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		s.errCh <- err

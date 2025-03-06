@@ -14,7 +14,7 @@ func ToHTTP(err error) *errorHTTP {
 	return &errorHTTP{500, msg}
 }
 
-func CompareError(err, with error) bool {
+func ErrIs(err, with error) bool {
 	return errors.Is(err, with)
 }
 

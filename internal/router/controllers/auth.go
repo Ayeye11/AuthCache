@@ -30,13 +30,8 @@ func (h *handler) registerHandler(c *gin.Context) {
 	p.Role = &types.Role{ID: role.ID}
 
 	if err := h.svc.User.RegisterUser(p); err != nil {
-
-		if errs.ErrIs(err, errs.ErrSvcUser_ConflictEmail) {
-			h.res.SendError(c, errs.ErrHttpAlreadyExistEmail)
-			return
-		}
-
-		h.res.SendError(c, errs.InternalX(err))
+		errHTTP := errs.IsErrDoX(err, errs.ErrSvcUser_ConflictEmail, errs.ErrHttpAlreadyExistEmail)
+		h.res.SendError(c, errHTTP)
 		return
 	}
 
@@ -54,16 +49,9 @@ func (h *handler) loginHandler(c *gin.Context) {
 	// Service: Login
 	u, err := h.svc.User.GetUser(p.Email)
 	if err != nil {
-		switch {
-
-		case errs.ErrIs(err, errs.ErrSvcUser_NotFoundUser):
-			h.res.SendError(c, errs.ErrHttpInvalidLogin)
-			return
-
-		default:
-			h.res.SendError(c, errs.InternalX(err))
-			return
-		}
+		errHTTP := errs.IsErrDoX(err, errs.ErrSvcUser_NotFoundUser, errs.ErrHttpInvalidLogin)
+		h.res.SendError(c, errHTTP)
+		return
 	}
 
 	if !h.svc.Hash.ComparePasswords(u.Password, p.Password) {

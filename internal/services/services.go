@@ -25,6 +25,7 @@ type AuthService interface {
 	CreateToken(u *types.User) (string, error)
 	CheckToken(tokenString string) (jwt.MapClaims, error)
 	// Permissions
+	GetRole(ident any) (*types.Role, error)
 	GetPermissions(roleID int) ([]*types.Permission, error)
 }
 

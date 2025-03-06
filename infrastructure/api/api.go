@@ -22,7 +22,7 @@ func NewRouter(db *gorm.DB, tokenKey string) *api {
 }
 
 func (r *api) RegisterRoutes() *gin.Engine {
-	// Dependencies:
+	// Repository & Services:
 	repo := repository.LoadRepository(r.db)
 	services := services.LoadServices(repo, r.tokenKey)
 

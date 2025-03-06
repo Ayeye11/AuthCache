@@ -16,8 +16,10 @@ type authSvc struct {
 
 func setClaims(u *types.User) jwt.MapClaims {
 	return jwt.MapClaims{
-		"sub":     strconv.Itoa(int(u.ID)),
-		"role_id": strconv.Itoa(int(u.Role.ID)),
+		"sub":       strconv.Itoa(int(u.ID)),
+		"firstname": u.Firstname,
+		"lastname":  u.Lastname,
+		"role_id":   strconv.Itoa(int(u.Role.ID)),
 	}
 }
 
@@ -56,18 +58,37 @@ func (s *authSvc) CheckToken(tokenString string) (jwt.MapClaims, error) {
 }
 
 // Permissions
+func (s *authSvc) GetRole(ident any) (*types.Role, error) {
+	if ident == nil {
+		return nil, errs.ErrSvcAuth_InvalidRoleID
+	}
+
+	checkFunc := func(v *types.Role, err error) (*types.Role, error) {
+		if err == nil {
+			return v, nil
+		}
+
+		return nil, errs.IsErrDoX(err, errs.ErrRepoPerm_InvalidRoleID, errs.ErrSvcAuth_InvalidRoleID)
+	}
+
+	switch v := ident.(type) {
+	case int:
+		return checkFunc(s.permRepo.GetRoleByID(v))
+
+	case string:
+		return checkFunc(s.permRepo.GetRoleByName(v))
+
+	default:
+		return nil, errs.ErrSvcAuth_InvalidRoleID
+	}
+}
+
 func (s *authSvc) GetPermissions(roleID int) ([]*types.Permission, error) {
 
 	perms, err := s.permRepo.GetPermissions(roleID)
 	if err != nil {
-
-		if errs.CompareError(err, errs.ErrRepoPerm_InvalidRoleID) {
-			return nil, errs.ErrSvcAuth_NotFoundRole
-		}
-
-		return nil, err
+		errs.IsErrDoX(err, errs.ErrRepoPerm_InvalidRoleID, errs.ErrSvcAuth_NotFoundRole)
 	}
 
 	return perms, nil
-
 }

@@ -20,11 +20,7 @@ func (s *userSvc) RegisterUser(u *types.User) error {
 	}
 
 	if err := s.userRepo.CreateUser(u); err != nil {
-		if errs.CompareError(err, errs.ErrRepoUser_DuplicatedEmail) {
-			return errs.ErrSvcUser_ConflictEmail
-		}
-
-		return errs.UnknownError(err)
+		return errs.IsErrDoX(err, errs.ErrRepoUser_DuplicatedEmail, errs.ErrSvcUser_ConflictEmail)
 	}
 
 	return nil
@@ -39,11 +35,8 @@ func (s *userSvc) GetUser(ident any) (*types.User, error) {
 		if err == nil {
 			return v, nil
 		}
-		if errs.CompareError(err, errs.ErrRepoUser_NotFound) {
-			return nil, errs.ErrSvcUser_NotFoundUser
-		}
 
-		return nil, errs.UnknownError(err)
+		return nil, errs.IsErrDoX(err, errs.ErrRepoUser_NotFound, errs.ErrSvcUser_NotFoundUser)
 	}
 
 	switch v := ident.(type) {

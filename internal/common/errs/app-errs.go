@@ -1,6 +1,7 @@
 package errs
 
 import (
+	"errors"
 	"log"
 	"runtime"
 )
@@ -17,12 +18,15 @@ var (
 
 // Services
 var (
+	ErrSvc_InvalidID = BscError("invalid id")
 	// Auth
-	ErrSvcAuth_Invalidtoken = BscError("invalid token")
-	ErrSvcAuth_NotFoundRole = BscError("role doesn't exists")
+	ErrSvcAuth_Invalidtoken  = BscError("invalid token")
+	ErrSvcAuth_NotFoundRole  = BscError("role doesn't exists")
+	ErrSvcAuth_InvalidRoleID = BscError("invalid role ID")
 
 	// User
 	ErrSvcUser_ConflictEmail = BscError("email is already used")
+	ErrSvcUser_NotFoundUser  = BscError("user not found")
 )
 
 // Types validations
@@ -44,4 +48,23 @@ func UnknownError(err error) error {
 	_, file, line, _ := runtime.Caller(1)
 	log.Printf("unknown error at %s:%d: %v", file, line, err)
 	return err
+}
+
+// IsErrDoX(MainERROR, Is, Do, Is, Do, Is, Do...)
+func IsErrDoX(main error, isDo ...error) error {
+	if main == nil {
+		return nil
+	}
+
+	if len(isDo) == 0 || len(isDo)%2 != 0 {
+		return UnknownError(BscError("expected pairs of (Is, Do) errors"))
+	}
+
+	for i := 0; i < len(isDo); i += 2 {
+		if errors.Is(main, isDo[i]) {
+			return isDo[i+1]
+		}
+	}
+
+	return UnknownError(main)
 }

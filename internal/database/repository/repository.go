@@ -2,7 +2,6 @@ package repository
 
 import (
 	"github.com/Ayeye11/se-thr/internal/common/types"
-	"github.com/Ayeye11/se-thr/internal/database/models"
 	"gorm.io/gorm"
 )
 
@@ -19,8 +18,8 @@ func LoadRepository(db *gorm.DB) *Repository {
 }
 
 type PermissionRepository interface {
-	GetRoleByID(roleID int) (*models.AcRole, error)
-	GetRoleByName(roleName string) (*models.AcRole, error)
+	GetRoleByID(roleID int) (*types.Role, error)
+	GetRoleByName(roleName string) (*types.Role, error)
 	GetPermissions(roleID int) ([]*types.Permission, error)
 }
 

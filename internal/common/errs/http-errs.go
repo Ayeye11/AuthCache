@@ -7,7 +7,7 @@ type errorHTTP struct {
 	message string
 }
 
-func newErrorHTTP(status int, message string) error {
+func NewErrorHTTP(status int, message string) error {
 	return &errorHTTP{status, message}
 }
 
@@ -34,31 +34,31 @@ func (err *errorHTTP) SafeMessage() string {
 // Client errors
 var (
 	// Status: 400
-	InvalidRequest = newErrorHTTP(http.StatusBadRequest, "invalid request")
-	MissingRequest = newErrorHTTP(http.StatusBadRequest, "missing request")
+	ErrHttpInvalidRequest = NewErrorHTTP(http.StatusBadRequest, "invalid request")
+	ErrHttpMissingRequest = NewErrorHTTP(http.StatusBadRequest, "missing request")
 
-	InvalidCredentials = newErrorHTTP(http.StatusBadRequest, "invalid credentials")
-	MissingCredentials = newErrorHTTP(http.StatusBadRequest, "missing credentials")
+	ErrHttpInvalidCredentials = NewErrorHTTP(http.StatusBadRequest, "invalid credentials")
+	ErrHttpMissingCredentials = NewErrorHTTP(http.StatusBadRequest, "missing credentials")
 
 	// Status: 401
-	InvalidToken = newErrorHTTP(http.StatusUnauthorized, "invalid token")
-	MissingToken = newErrorHTTP(http.StatusUnauthorized, "missing token")
+	ErrHttpInvalidToken = NewErrorHTTP(http.StatusUnauthorized, "invalid token")
+	ErrHttpMissingToken = NewErrorHTTP(http.StatusUnauthorized, "missing token")
 
-	InvalidLogin = newErrorHTTP(http.StatusUnauthorized, "invalid email or password")
+	ErrHttpInvalidLogin = NewErrorHTTP(http.StatusUnauthorized, "invalid email or password")
 
 	// Status: 403
-	Forbidden = newErrorHTTP(http.StatusForbidden, "access denied")
+	ErrHttpForbidden = NewErrorHTTP(http.StatusForbidden, "access denied")
 
 	// Status: 404
-	NotFoundUser = newErrorHTTP(http.StatusNotFound, "user not found")
+	ErrHttpNotFoundUser = NewErrorHTTP(http.StatusNotFound, "user not found")
 
 	// Status: 409
-	AlreadyExistEmail = newErrorHTTP(http.StatusConflict, "email already used")
-	AlreadyExistUser  = newErrorHTTP(http.StatusContinue, "user already exist")
+	ErrHttpAlreadyExistEmail = NewErrorHTTP(http.StatusConflict, "email already used")
+	ErrHttpAlreadyExistUser  = NewErrorHTTP(http.StatusContinue, "user already exist")
 )
 
 func InternalX(err error) error {
-	return newErrorHTTP(http.StatusInternalServerError, err.Error())
+	return NewErrorHTTP(http.StatusInternalServerError, err.Error())
 }
 
 var serverErrorMessages = map[int]string{

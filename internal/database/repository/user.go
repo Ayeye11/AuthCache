@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"errors"
-
 	"github.com/Ayeye11/se-thr/internal/common/errs"
 	"github.com/Ayeye11/se-thr/internal/common/types"
 	"github.com/Ayeye11/se-thr/internal/database/models"
@@ -29,12 +27,7 @@ func (s *userStore) CreateUser(u *types.User) error {
 	}
 
 	if err := s.db.Create(&model).Error; err != nil {
-
-		if errors.Is(err, gorm.ErrDuplicatedKey) {
-			return errs.ErrRepoUser_DuplicatedEmail
-		}
-
-		return errs.UnknownError(err)
+		return errs.IsErrDoX(err, gorm.ErrDuplicatedKey, errs.ErrRepoUser_DuplicatedEmail)
 	}
 
 	return nil
@@ -48,12 +41,7 @@ func (s *userStore) GetUserByID(id int) (*types.User, error) {
 
 	model := models.UserModel{}
 	if err := s.db.First(&model, id).Error; err != nil {
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errs.ErrRepoUser_NotFound
-		}
-
-		return nil, errs.UnknownError(err)
+		return nil, errs.IsErrDoX(err, gorm.ErrRecordNotFound, errs.ErrRepoUser_NotFound)
 	}
 
 	modelRole := models.AcRole{}
@@ -81,12 +69,7 @@ func (s *userStore) GetUserByID(id int) (*types.User, error) {
 func (s *userStore) GetUserByEmail(email string) (*types.User, error) {
 	model := models.UserModel{}
 	if err := s.db.First(&model, "email = ?", email).Error; err != nil {
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errs.ErrRepoUser_NotFound
-		}
-
-		return nil, errs.UnknownError(err)
+		return nil, errs.IsErrDoX(err, gorm.ErrRecordNotFound, errs.ErrRepoUser_NotFound)
 	}
 
 	modelRole := models.AcRole{}

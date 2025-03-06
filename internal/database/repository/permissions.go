@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"errors"
-
 	"github.com/Ayeye11/se-thr/internal/common/errs"
 	"github.com/Ayeye11/se-thr/internal/common/types"
 	"github.com/Ayeye11/se-thr/internal/database/models"
@@ -13,36 +11,36 @@ type permStore struct {
 	db *gorm.DB
 }
 
-func (s *permStore) GetRoleByID(roleID int) (*models.AcRole, error) {
+func (s *permStore) GetRoleByID(roleID int) (*types.Role, error) {
 	if roleID < 1 {
 		return nil, errs.ErrRepoPerm_InvalidRoleID
 	}
 
 	role := models.AcRole{}
 	if err := s.db.First(&role, roleID).Error; err != nil {
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errs.ErrRepoPerm_InvalidRoleID
-		}
-
-		return nil, errs.UnknownError(err)
+		return nil, errs.IsErrDoX(err, gorm.ErrRecordNotFound, errs.ErrRepoPerm_InvalidRoleID)
 	}
 
-	return &role, nil
+	res := &types.Role{
+		ID:   role.ID,
+		Name: role.Role,
+	}
+
+	return res, nil
 }
 
-func (s *permStore) GetRoleByName(roleName string) (*models.AcRole, error) {
+func (s *permStore) GetRoleByName(roleName string) (*types.Role, error) {
 	role := models.AcRole{}
 	if err := s.db.First(&role, "role = ?", roleName).Error; err != nil {
-
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errs.ErrRepoPerm_InvalidRoleID
-		}
-
-		return nil, errs.UnknownError(err)
+		return nil, errs.IsErrDoX(err, gorm.ErrRecordNotFound, errs.ErrRepoPerm_InvalidRoleID)
 	}
 
-	return &role, nil
+	res := &types.Role{
+		ID:   role.ID,
+		Name: role.Role,
+	}
+
+	return res, nil
 }
 
 func (s *permStore) GetPermissions(roleID int) ([]*types.Permission, error) {

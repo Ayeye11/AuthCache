@@ -8,7 +8,6 @@ import (
 
 	"github.com/Ayeye11/se-thr/config"
 	"gorm.io/driver/mysql"
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -19,8 +18,8 @@ type databaseSQL struct {
 }
 
 var initDriverFunc = map[string]func(c config.ConfigSQL) gorm.Dialector{
-	"mysql":    func(c config.ConfigSQL) gorm.Dialector { return mysql.Open(c.DSN_mysql()) },
-	"postgres": func(c config.ConfigSQL) gorm.Dialector { return postgres.Open(c.DSN_postgres()) },
+	"mysql": func(c config.ConfigSQL) gorm.Dialector { return mysql.Open(c.DSN_mysql()) },
+	//"postgres": func(c config.ConfigSQL) gorm.Dialector { return postgres.Open(c.DSN_postgres()) },
 }
 
 func InitSQL(engineName string, config config.ConfigSQL, attempts ...int) (*databaseSQL, error) {

@@ -70,3 +70,7 @@ func (h *handler) loginHandler(c *gin.Context) {
 	h.res.SetCookie(c, token)
 	h.res.SendMessage(c, 200, "login successfully")
 }
+
+func (h *handler) logoutHandler(c *gin.Context) {
+	c.SetCookie("token", "", 0, "/", "", false, true)
+}

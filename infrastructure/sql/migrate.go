@@ -1,4 +1,4 @@
-package database
+package sql
 
 import (
 	"database/sql"
@@ -10,7 +10,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
-const migrationPath = "file://infrastructure/database/migrations"
+const migrationPath = "file://infrastructure/sql/migrations"
 
 var migrateDriverFunc = map[string]func(instance *sql.DB) (database.Driver, error){
 	"mysql": func(instance *sql.DB) (database.Driver, error) {

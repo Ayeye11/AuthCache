@@ -1,9 +1,10 @@
-package database
+package sql
 
 import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/Ayeye11/se-thr/config"
@@ -26,11 +27,6 @@ func InitSQL(engineName string, config config.ConfigSQL, attempts ...int) (*data
 	driverFunc, exists := initDriverFunc[engineName]
 	if !exists {
 		return nil, fmt.Errorf("'%s' is not available", engineName)
-	}
-
-	trys := 1
-	if len(attempts) > 0 && attempts[0] >= 1 && attempts[0] <= 10 {
-		trys = attempts[0]
 	}
 
 	conn := func(ctx context.Context) (*gorm.DB, error) {
@@ -59,7 +55,12 @@ func InitSQL(engineName string, config config.ConfigSQL, attempts ...int) (*data
 		}
 	}
 
-	for i := 1; i <= trys; i++ {
+	tries := 1
+	if len(attempts) > 0 && attempts[0] >= 1 && attempts[0] <= 10 {
+		tries = attempts[0]
+	}
+
+	for i := 1; i <= tries; i++ {
 		ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 		defer cancel()
 
@@ -68,12 +69,10 @@ func InitSQL(engineName string, config config.ConfigSQL, attempts ...int) (*data
 			return &databaseSQL{engineName, config, db}, nil
 		}
 
-		if trys == 1 {
-			break
+		if i < tries {
+			log.Printf("failed to connect to the database, attempt %d/%d...\n", i, tries)
+			time.Sleep(time.Second)
 		}
-
-		fmt.Printf("failed to connect to the database, attempt %d/%d...\n", i, trys)
-		time.Sleep(time.Second)
 	}
 
 	return nil, fmt.Errorf("failed to connect to the database")

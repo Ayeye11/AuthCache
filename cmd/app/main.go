@@ -5,8 +5,9 @@ import (
 
 	"github.com/Ayeye11/se-thr/config"
 	"github.com/Ayeye11/se-thr/infrastructure/api"
-	"github.com/Ayeye11/se-thr/infrastructure/database"
+	"github.com/Ayeye11/se-thr/infrastructure/redis"
 	"github.com/Ayeye11/se-thr/infrastructure/server"
+	"github.com/Ayeye11/se-thr/infrastructure/sql"
 )
 
 func main() {
@@ -14,13 +15,19 @@ func main() {
 	cfg := config.LoadConfig()
 
 	// Database
-	sqlDB, err := database.InitSQL("mysql", cfg.SQL, 3)
+	sqlDB, err := sql.InitSQL("mysql", cfg.SQL, 3)
+	if err != nil {
+		log.Fatalf("fatal: %v\n", err)
+	}
+
+	// Redis
+	rdb, err := redis.NewRedisDB(cfg.Redis)
 	if err != nil {
 		log.Fatalf("fatal: %v\n", err)
 	}
 
 	// API Internals
-	router := api.NewRouter(sqlDB.GetDB(), cfg.APP.TokenKey)
+	router := api.NewRouter(sqlDB.GetDB(), rdb.GetClient(), rdb.GetTTL(), cfg.APP.TokenKey)
 	handler := router.RegisterRoutes()
 
 	// Server
@@ -31,6 +38,11 @@ func main() {
 
 	// server:Close
 	if err := server.Close(); err != nil {
+		log.Fatalf("fatal: %v\n", err)
+	}
+
+	// redis:Close
+	if err := rdb.Close(); err != nil {
 		log.Fatalf("fatal: %v\n", err)
 	}
 

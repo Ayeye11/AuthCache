@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/Ayeye11/se-thr/config"
-	"github.com/Ayeye11/se-thr/infrastructure/database"
+	"github.com/Ayeye11/se-thr/infrastructure/sql"
 	"github.com/golang-migrate/migrate/v4"
 )
 
@@ -19,7 +19,7 @@ func logf(err error) {
 func main() {
 	cfg := config.LoadConfig().SQL
 
-	sql, err := database.InitSQL("mysql", cfg)
+	sql, err := sql.InitSQL("mysql", cfg)
 	logf(err)
 
 	m, err := sql.GetMigrator()

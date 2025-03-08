@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "github.com/Ayeye11/se-thr/internal/router/cache/proto/gen/pb";
+
+package pb;
+
+// Messages
+message User {
+    int64 ID = 1;
+    string Email = 2;
+    string Password = 3;
+    string Firstname = 4;
+    string Lastname = 5;
+    int32 Age = 6;
+    int64 RoleID = 7;
+}
+
+message Role {
+    int64 ID = 1;
+    string Name = 2;
+    repeated Permission Perms = 3;
+}
+
+message Permission {
+    string Category = 2;
+    string Action = 3;
+}

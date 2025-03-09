@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/Ayeye11/se-thr/config"
-	"github.com/Ayeye11/se-thr/infrastructure/sql"
+	"github.com/Ayeye11/AuthCache/config"
+	"github.com/Ayeye11/AuthCache/infrastructure/sql"
 	"github.com/golang-migrate/migrate/v4"
 )
 

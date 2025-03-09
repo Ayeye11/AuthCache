@@ -3,9 +3,9 @@ package api
 import (
 	"time"
 
-	"github.com/Ayeye11/se-thr/internal/database/repository"
-	"github.com/Ayeye11/se-thr/internal/router/controllers"
-	"github.com/Ayeye11/se-thr/internal/services"
+	"github.com/Ayeye11/AuthCache/internal/database/repository"
+	"github.com/Ayeye11/AuthCache/internal/router/controllers"
+	"github.com/Ayeye11/AuthCache/internal/services"
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"

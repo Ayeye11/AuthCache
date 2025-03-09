@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"github.com/Ayeye11/se-thr/internal/common/errs"
-	"github.com/Ayeye11/se-thr/internal/common/types"
-	"github.com/Ayeye11/se-thr/internal/database/models"
+	"github.com/Ayeye11/AuthCache/internal/common/errs"
+	"github.com/Ayeye11/AuthCache/internal/common/types"
+	"github.com/Ayeye11/AuthCache/internal/database/models"
 	"gorm.io/gorm"
 )
 

@@ -1,8 +1,8 @@
 package types
 
 import (
-	"github.com/Ayeye11/se-thr/internal/common/errs"
-	"github.com/Ayeye11/se-thr/internal/common/validations"
+	"github.com/Ayeye11/AuthCache/internal/common/errs"
+	"github.com/Ayeye11/AuthCache/internal/common/validations"
 )
 
 // Type

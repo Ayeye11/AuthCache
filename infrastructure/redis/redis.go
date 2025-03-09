@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Ayeye11/se-thr/config"
+	"github.com/Ayeye11/AuthCache/config"
 	"github.com/redis/go-redis/v9"
 )
 

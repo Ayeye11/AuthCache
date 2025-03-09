@@ -1,6 +1,6 @@
 package validations
 
-import "github.com/Ayeye11/se-thr/internal/common/errs"
+import "github.com/Ayeye11/AuthCache/internal/common/errs"
 
 func ValidateField(target any, spec *Specification) error {
 	if spec == nil {

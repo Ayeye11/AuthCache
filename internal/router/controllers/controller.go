@@ -3,10 +3,10 @@ package controllers
 import (
 	"time"
 
-	"github.com/Ayeye11/se-thr/internal/router/cache/rdb"
-	"github.com/Ayeye11/se-thr/internal/router/http"
-	"github.com/Ayeye11/se-thr/internal/router/middlewares"
-	"github.com/Ayeye11/se-thr/internal/services"
+	"github.com/Ayeye11/AuthCache/internal/router/cache/rdb"
+	"github.com/Ayeye11/AuthCache/internal/router/http"
+	"github.com/Ayeye11/AuthCache/internal/router/middlewares"
+	"github.com/Ayeye11/AuthCache/internal/services"
 	"github.com/gin-gonic/gin"
 	"github.com/redis/go-redis/v9"
 )

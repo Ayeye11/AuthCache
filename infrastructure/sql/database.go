@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/Ayeye11/se-thr/config"
+	"github.com/Ayeye11/AuthCache/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

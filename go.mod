@@ -1,4 +1,4 @@
-module github.com/Ayeye11/se-thr
+module github.com/Ayeye11/AuthCache
 
 go 1.24.0
 

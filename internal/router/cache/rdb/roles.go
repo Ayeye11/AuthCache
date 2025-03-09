@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Ayeye11/se-thr/internal/common/types"
-	pb "github.com/Ayeye11/se-thr/internal/router/cache/proto/gen"
+	"github.com/Ayeye11/AuthCache/internal/common/types"
+	pb "github.com/Ayeye11/AuthCache/internal/router/cache/proto/gen"
 	"google.golang.org/protobuf/proto"
 )
 

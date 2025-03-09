@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/Ayeye11/se-thr/config"
-	"github.com/Ayeye11/se-thr/infrastructure/api"
-	"github.com/Ayeye11/se-thr/infrastructure/redis"
-	"github.com/Ayeye11/se-thr/infrastructure/server"
-	"github.com/Ayeye11/se-thr/infrastructure/sql"
+	"github.com/Ayeye11/AuthCache/config"
+	"github.com/Ayeye11/AuthCache/infrastructure/api"
+	"github.com/Ayeye11/AuthCache/infrastructure/redis"
+	"github.com/Ayeye11/AuthCache/infrastructure/server"
+	"github.com/Ayeye11/AuthCache/infrastructure/sql"
 )
 
 func main() {

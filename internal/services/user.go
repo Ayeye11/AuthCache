@@ -1,9 +1,9 @@
 package services
 
 import (
-	"github.com/Ayeye11/se-thr/internal/common/errs"
-	"github.com/Ayeye11/se-thr/internal/common/types"
-	"github.com/Ayeye11/se-thr/internal/database/repository"
+	"github.com/Ayeye11/AuthCache/internal/common/errs"
+	"github.com/Ayeye11/AuthCache/internal/common/types"
+	"github.com/Ayeye11/AuthCache/internal/database/repository"
 )
 
 type userSvc struct {

@@ -3,7 +3,7 @@ package rdb
 import (
 	"time"
 
-	"github.com/Ayeye11/se-thr/internal/common/types"
+	"github.com/Ayeye11/AuthCache/internal/common/types"
 	"github.com/redis/go-redis/v9"
 )
 
